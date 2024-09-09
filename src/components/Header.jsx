@@ -1,13 +1,11 @@
 import React from 'react'
 
-
-function App() {
+function header() {
   return (
     <div>
-    
+      
     </div>
   )
 }
 
-export default App
-
+export default header
