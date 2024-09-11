@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 /* ORDERDİV BÖLÜMÜ */
@@ -10,18 +11,21 @@ const OrderDiv = styled.div`
   margin: 0 auto;
 `;
 
+
 /* HEADER (BAŞLIK) BÖLÜMÜ */
-const Header = styled.header`
+const HeaderSection = styled.header`
   background-color: red;
   color: white;
   text-align: center;
-  padding:50px 70px 60px 90px;
+  padding:3rem;
   width: 100vw;
-  
-p {
+
+  .home-order {
     display: flex;
-  }
+}
 `;
+
+
 
 /* CONTENT (İÇERİK) BÖLÜMÜ*/
 const Content = styled.div`
@@ -133,10 +137,7 @@ const OrderSummary = styled.div`
     justify-content: space-between;
     color: red;
   }
-  .total {
-    font-weight: bold;
-    font-size: 18px;
-  }
+ 
 `;
 
 /* BUTTONGROUP BÖLÜMÜ */
@@ -176,14 +177,42 @@ const SiparisVerButon = styled.button`
 `;
 
 
+const initialOrderData = {
+    size: "", // ! Pizza Boyutu
+    crust: "", //! Hamur Türü
+    toppings: [], //!Seçilen Ek Malzemeler
+    price: 0, //!Fiyat Bilgisi
+}
+
 const Order = () => {
+const [orderData, setOrderData] = useState(initialOrderData);
+const [selectedTopping, setSelectedTopping] = useState([]);
+    
+const toppings = [
+        'Pepperoni',
+        'Tavuk Izgara',
+        'Mısır',
+        'Sarımsak',
+        'Ananas',
+        'Sosis',
+        'Soğan',
+        'Sucuk',
+        'Biber',
+        'Kabak',
+        'Kanada Jambonu',
+        'Domates',
+        'Jalepeno',
+      ];
+
+      
+    
 
 return (
     <OrderDiv>
-      <Header>
-        <h1>Teknolojik Yemekler</h1>
-        <p className="home-order">AnaSayfa / Sipariş Oluştur</p>
-      </Header>
+      <HeaderSection>
+        <div>Teknolojik Yemekler</div>
+        <p className="home-order">Anasayfa / Sipariş Ver</p>
+        </HeaderSection>
       <Content>
         <h2>Position Absolute Acı Pizza</h2>
         <p className="price">85.50₺</p>
@@ -218,22 +247,14 @@ return (
 
       <ToppingsSection>
         <h3>Ekstra Malzemeler</h3>
-        <label>
-          <input type="checkbox" name="pepperoni" />Pepperoni
+        <p>En Fazla 10 malzeme seçebilirsiniz. 5₺</p>
+       {toppings.map((item, index) => (
+        <label key={index}>
+            <input type="checkbox" name={item} />
+            {item}
         </label>
-        <label>
-          <input type="checkbox" name="domates" />Domates
-        </label>
-        <label>
-          <input type="checkbox" name="biber" />Biber
-        </label>
-        <label>
-          <input type="checkbox" name="ananas" />Ananas
-        </label>
-        <label>
-          <input type="checkbox" name="tavukIzgara" />Tavuk Izgara
-        </label>
-      </ToppingsSection>
+       ))}
+       </ToppingsSection>
 
       <NoteSection>
         <h3>Sipariş Notu</h3>

@@ -9,9 +9,10 @@ import { Route, Switch } from 'react-router-dom/cjs/react-router-dom.min';
 
 function App() {
   return (
-    <Switch>
+    <Route>
     <Order/>
-   </Switch>
+   </Route>
+   
   )
 }
 
