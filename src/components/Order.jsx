@@ -1,125 +1,141 @@
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
+import { Form } from 'reactstrap';
 
 /* ORDERDİV BÖLÜMÜ */
 const OrderDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: black;
-  padding: 20px;
-  margin: 0 auto;
+display: flex;
+flex-direction: column;
+align-items: center;
+color: black;
+padding: 20px;
+margin: 0 auto;
 `;
 
 
 /* HEADER (BAŞLIK) BÖLÜMÜ */
 const HeaderSection = styled.header`
-  background-color: red;
-  color: white;
-  text-align: center;
-  padding:3rem;
-  width: 100vw;
+background-color: red;
+color: white;
+text-align: center;
+padding: 3rem 0; 
+width: 100vw;
+position: fixed; 
+top: 0;
+.header {
+font-size: 50px;
 
-  .home-order {
-    display: flex;
 }
+ .home-order {
+display: flex;
+position: relative;
+top: 40px;
+  }
 `;
-
 
 
 /* CONTENT (İÇERİK) BÖLÜMÜ*/
 const Content = styled.div`
-  margin-top: 20px;
-  
-  h2 {
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 10px;
+.content-section {
+margin-top:200px;
+    
+}
+
+
+ h2 {
+font-family: Barlow;
+font-size: 25px;
+font-weight: 600;
+line-height: 29.44px;
+text-align: left;
+
   }
   .price {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-  }
-  .point {
-    font-size: 16px;
-    color: gray;
-    position: relative;
-    bottom: 40px;
-    left: 50%;
+font-family: Barlow;
+font-size: 28px;
+font-weight: 700;
+line-height: 37.47px;
+text-align: left;
+
+}
+.point {
+font-size: 16px;
+color: gray;
+position: relative;
+bottom: 40px;
+left: 50%;
   }
   .comment {
-    font-size: 16px;
-    
-    
-  }
+font-family: Barlow;
+font-size: 16px;
+font-weight: 400;
+line-height: 28.8px;
+text-align: left;
+ }
 `;
+
+const MiddleSection = styled.div`
+  .size-dough {
+    display: flex;
+    justify-content:space-between;
+    gap: 200px;
+}  
+`
 
 /* SİZESECTİON (BOYUT SEÇİMİ) BÖLÜMÜ */
 const SizeSection = styled.div`
-  margin: 20px 0;
-  h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  input {
-    margin-right: 10px;
-  }
-  label {
-    margin-right: 20px;
-    font-size: 16px;
-  }
+display: flex;
+flex-direction:column;
 `;
+
+
 
 /* DOUGHSECTİON (HAMUR SEÇİMİ) BÖLÜMÜ */
 const DoughSection = styled.div`
-  margin: 20px 0;
-  h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  select {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
+    margin-left: 20px;
+   h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+   }
+   select {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid gray;
+   }
 `;
+
 
 /* TOPPINGSECTİON (EKSTRA MALZEMELER) BÖLÜMÜ */
 const ToppingsSection = styled.div`
-  margin: 20px 0;
-  h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  label {
-    margin-right: 15px;
-    font-size: 16px;
-    display: block;
-    margin-bottom: 5px;
-  }
-  input {
-    margin-right: 10px;
-  }
+     margin: 20px 0;
+   h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+   }
+   display: grid;
+   grid-template-columns: repeat(3, 1fr); 
+   gap: 10px;
 `;
+
 
 /* NOTESECTİON (SİPARİŞ NOTU) BÖLÜMÜ */
 const NoteSection = styled.div`
-  margin: 20px 0;
-  h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  textarea {
-    width: 100%;
-    height: 80px;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
+     margin: 20px 0;
+   h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+   }
+   textarea {
+      width: 50vh;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+   }
 `;
+
 
 /* ORDERSUMMARY (SİPARİŞ ÖZETİ) BÖLÜMÜ */
 const OrderSummary = styled.div`
@@ -130,7 +146,8 @@ const OrderSummary = styled.div`
 
   h4 {
     font-size: 20px;
-   }
+}
+
   .total {
     font-size: 16px;
     display: flex;
@@ -141,26 +158,20 @@ const OrderSummary = styled.div`
 `;
 
 /* BUTTONGROUP BÖLÜMÜ */
+
 const ButtonGroupWrapper = styled.div`
-  margin: 20px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+   display: flex;
+   align-items: center;
 
-  button {
-padding: 10px 15px;
-background-color: #ffc107;
-border: none;
-font-size: 18px;
-    
-    
-    
-
-    &:hover {
-      background-color: #e0a800;
+   button {
+      padding: 10px 15px;
+      background-color: #ffc107;
+      border: none;
+      font-size: 18px;
     }
-  }
+   
 `;
+
 
 /* SİPARİŞ VER BUTON BÖLÜMÜ */
 const SiparisVerButon = styled.button`
@@ -175,6 +186,9 @@ const SiparisVerButon = styled.button`
     background-color: #e0a800;
   }
 `;
+const errorMessage =styled.p`
+    color:red;
+`
 
 
 const initialOrderData = {
@@ -186,6 +200,16 @@ const initialOrderData = {
 
 const Order = () => {
 const [orderData, setOrderData] = useState(initialOrderData);
+const [error, setError] = useState({
+    size: "", // ! Pizza Boyutu
+    crust: "", //! Hamur Türü
+    toppings: [], //!Seçilen Ek Malzemeler
+    price: 0, //!Fiyat Bilgisi
+
+})
+
+const [isValid, setIsValid] = useState(false);
+const history = useHistory(); //! Pushlama islemini yapabilmek için.
 const [selectedTopping, setSelectedTopping] = useState([]);
     
 const toppings = [
@@ -204,16 +228,33 @@ const toppings = [
         'Jalepeno',
       ];
 
-      
+
+      function handleSubmit(event) {
+event.preventDefault();
+axios.post("https://reqres.in/api/pizza", orderData)
+.then((response) => {
+    console.log(response.data);
+    history.push("/Success")
+})
+.catch((error) => {
+console.warn(error.message);
+});
+      }
+
+function handleChange(event) {
+    const{value, name} = event.target;
+    setSelectedTopping({...selectedTopping, [name]: value})
+}
     
 
 return (
-    <OrderDiv>
-      <HeaderSection>
-        <div>Teknolojik Yemekler</div>
+     <OrderDiv onSubmit={handleSubmit}>
+        <HeaderSection>
+        <div className ="header">Teknolojik Yemekler</div>
         <p className="home-order">Anasayfa / Sipariş Ver</p>
         </HeaderSection>
       <Content>
+        <div className="content-section">
         <h2>Position Absolute Acı Pizza</h2>
         <p className="price">85.50₺</p>
         <p className="point">4.9 (200)</p>
@@ -223,7 +264,12 @@ return (
           daha sonra geleneksel olarak odun ateşinde bir fırında yüksek sıcaklıkta pişirilen, genellikle yuvarlak, <br />
           düzeltilmiş mayalı buğday bazlı hamurdan oluşan İtalyan kökenli lezzetli bir yemektir.<br /> Küçük bir pizzaya bazen pizetta denir.
         </p>
+        </div>
       </Content>
+
+      <MiddleSection>
+      <div  className="size-dough">
+
       <SizeSection>
         <h3>Boyut Seç *</h3>
         <input type="radio" id="small" name="size" />
@@ -244,13 +290,15 @@ return (
           <option value="kalin">Kalın Hamur</option>
         </select>
       </DoughSection>
+      </div>
+      </MiddleSection>
 
       <ToppingsSection>
         <h3>Ekstra Malzemeler</h3>
         <p>En Fazla 10 malzeme seçebilirsiniz. 5₺</p>
        {toppings.map((item, index) => (
         <label key={index}>
-            <input type="checkbox" name={item} />
+            <input type="checkbox" name={item} onChange={handleChange} />
             {item}
         </label>
        ))}
@@ -270,14 +318,15 @@ return (
       <OrderSummary>
         <h4>Sipariş Toplamı</h4>
         <p>
-          Seçimler <span>25.00₺</span>
+          Seçimler <span className="secimler">25.00₺</span>
         </p>
         <p className="total">
           Toplam <span>110.50₺</span>
         </p>
       </OrderSummary>
 
-      <SiparisVerButon>Sipariş Ver</SiparisVerButon>
+      <SiparisVerButon disabled={!isValid}>Sipariş Ver</SiparisVerButon>
+      
     </OrderDiv>
   );
 };
