@@ -13,15 +13,19 @@ function App() {
   return (
     <>
     <Switch>
+
     <Route exact path="/">
-    <Header />
+   <Header/>
     </Route>
+
     <Route path="/order">
       <Order />
     </Route>
+
    <Route>
     <Success path="/success"/>
    </Route>
+
     </Switch>
   </>
   )

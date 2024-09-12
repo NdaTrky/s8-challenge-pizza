@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
-import Header from "./Header"
+
 
 /* ORDERDİV BÖLÜMÜ */
 const OrderDiv = styled.div`
@@ -10,10 +10,12 @@ const OrderDiv = styled.div`
   flex-direction: column;
   align-items: center;
   color: black;
-  padding: 30px;
+  padding: 15px;
   border: 1px solid red;
   width: 100%;
   box-sizing: border-box;
+  position: relative;
+  left: 30vw;
   
 `;
 
@@ -310,7 +312,7 @@ const Order = () => {
 
   return (
 <>
- <Header/>
+ 
     <OrderDiv>
 <HeaderSection>
         <div className="header">Teknolojik Yemekler</div>
