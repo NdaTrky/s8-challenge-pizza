@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
+import Header from "./Header"
 
 /* ORDERDİV BÖLÜMÜ */
 const OrderDiv = styled.div`
@@ -14,7 +15,6 @@ const OrderDiv = styled.div`
   width: 100%;
   box-sizing: border-box;
   
-
 `;
 
 /* HEADER (BAŞLIK) BÖLÜMÜ */
@@ -309,9 +309,10 @@ const Order = () => {
   const totalPrice = basePrice + (orderData.toppings.length * toppingPrice);
 
   return (
+<>
+ <Header/>
     <OrderDiv>
-
-      <HeaderSection>
+<HeaderSection>
         <div className="header">Teknolojik Yemekler</div>
         <p className="home-order">Anasayfa / Sipariş Ver</p>
       </HeaderSection>
@@ -329,11 +330,11 @@ const Order = () => {
           </p>
         </div>
 
-                <MiddleSection>
-                <div className="size-dough">
-                <SizeSection>
-        <h3>Boyut Seç <span>*</span></h3>
-        <div>
+        <MiddleSection>
+          <div className="size-dough">
+        <SizeSection>
+            <h3>Boyut Seç <span>*</span></h3>
+            <div>
             <input type="radio" id="kucuk" name="size" value="Küçük"
             checked={orderData.size === "Küçük"}
             onChange={handleChange}
@@ -429,6 +430,7 @@ const Order = () => {
         </MiddleSection>
       </Content>
     </OrderDiv>
+    </>
   );
 };
 

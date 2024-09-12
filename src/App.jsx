@@ -1,18 +1,29 @@
 import React from 'react'
 import Order from './components/Order'
+import Header from "./components/Header"
+import Success from "./components/Success"
 import './App.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Route, Switch } from 'react-router-dom/cjs/react-router-dom.min';
+import { Route, Switch } from 'react-router-dom';
 
 
 
 function App() {
   return (
-    <Route>
-    <Order/>
+    <>
+    <Switch>
+    <Route exact path="/">
+    <Header />
+    </Route>
+    <Route path="/order">
+      <Order />
+    </Route>
+   <Route>
+    <Success path="/success"/>
    </Route>
-   
+    </Switch>
+  </>
   )
 }
 
