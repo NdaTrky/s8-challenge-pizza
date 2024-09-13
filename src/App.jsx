@@ -18,12 +18,12 @@ function App() {
    <Header/>
     </Route>
 
-    <Route path="/order">
+    <Route path="/Order">
       <Order />
     </Route>
 
    <Route>
-    <Success path="/success"/>
+    <Success exact path="/Success"/>
    </Route>
 
     </Switch>
