@@ -15,6 +15,12 @@ const OrderDiv = styled.div`
   box-sizing: border-box;
   position: relative;
   left: 30vw;
+
+  @media (max-width:768px) {
+    left:0; 
+    padding: 8px;
+    width:100%;
+  }
 `;
 
 /* HEADER (BAŞLIK) BÖLÜMÜ */
@@ -32,6 +38,21 @@ const HeaderSection = styled.header`
   .home-order {
     display: flex;
     padding-left: 20rem;
+}
+
+
+@media (max-width: 768px) {
+    min-width: 100%;
+    padding: 1rem 0;
+    
+    .header {
+      font-size: 30px;
+    }
+
+    .home-order {
+      padding-left: 0;
+      justify-content: center;
+    }
   }
 `;
 
@@ -68,6 +89,29 @@ const Content = styled.div`
     line-height: 28.8px;
     text-align: left;
   }
+  @media (max-width: 768px) {
+    .content-section {
+      margin-top: 100px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    .price {
+      font-size: 22px;
+    }
+
+    .point {
+      font-size: 14px;
+      bottom: 20px;
+    }
+
+    .comment {
+      font-size: 14px;
+      line-height: 22px;
+    }
+  }
 `;
 
 const MiddleSection = styled.div`
@@ -77,12 +121,19 @@ const MiddleSection = styled.div`
     gap: 200px;
     
   }  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+  }
 `;
 
 /* SİZESECTION (BOYUT SEÇİMİ) BÖLÜMÜ */
 const SizeSection = styled.div`
   display: flex;
   flex-direction: column;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 /* DOUGHSECTION (HAMUR SEÇİMİ) BÖLÜMÜ */
@@ -98,6 +149,13 @@ const DoughSection = styled.div`
     border-radius: 5px;
     border: 1px solid gray;
   }
+  @media (max-width: 768px) {
+    margin-left: 0;
+
+    select {
+      width: 100%;
+    }
+  }
 `;
 
 /* TOPPINGSECTION (EKSTRA MALZEMELER) BÖLÜMÜ */
@@ -110,6 +168,15 @@ const ToppingsSection = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr); 
   gap: 10px;
+  @media (max-width: 768px) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    label {
+      flex: 1 0 30%;
+    }
+  }
 `;
 
 /* NOTESECTION (SİPARİŞ NOTU) BÖLÜMÜ */
@@ -124,6 +191,11 @@ const NoteSection = styled.div`
     font-size: 16px;
     border-radius: 5px;
     border: 1px solid #ccc;
+  }
+  @media (max-width: 768px) {
+    textarea {
+      width: 100%;
+    }
   }
 `;
 
@@ -141,6 +213,19 @@ const OrderSummary = styled.div`
     display: flex;
     justify-content: space-between;
     color: red;
+  }
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    left: 0;
+    margin: 10px 0;
+    padding: 10px;
+
+    .total {
+      font-size: 14px;
+      flex-direction: column;
+      text-align: center;
+    }
   }
 `;
 
@@ -162,7 +247,22 @@ const ButtonGroupWrapper = styled.div`
     font-size: 20px;
     margin: 0 10px;
   }
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 10px;
+    bottom: 0;
+
+    button {
+      width: 100%;
+      padding: 15px;
+    }
+
+    span {
+      font-size: 18px;
+    }
+  }
 `;
+
 
 /* SİPARİŞ VER BUTON BÖLÜMÜ */
 const SiparisVerButon = styled.button`
@@ -178,7 +278,16 @@ const SiparisVerButon = styled.button`
   &:hover {
     background-color: #ffda44;
   }
+ 
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    left: 0;
+    bottom: 0;
+  }
 `;
+
 
 const ErrorMessage = styled.p`
   color: red;
@@ -210,8 +319,7 @@ const Order = () => {
       "Pastırma",
       "Mozzarella"
     ];
-  
-   
+
     const validateForm = () => {
       let validationErrors = {};
       if (orderData.name.length < 3) {
@@ -232,12 +340,10 @@ const Order = () => {
       setIsValid(Object.keys(validationErrors).length === 0);
     };
   
-    
     const handleQuantityChange = (change) => {
       setQuantity((prevQuantity) => Math.max(1, prevQuantity + change)); 
     };
   
-    
     const handleSubmit = (event) => {
       event.preventDefault();
       validateForm(); 
@@ -250,11 +356,9 @@ const Order = () => {
         })
         .catch((error) => {
           console.warn(error.message);
-          
         });
     };
   
-    
     const handleChange = (event) => {
       const { value, name, type, checked } = event.target;
   
@@ -277,7 +381,6 @@ const Order = () => {
         }));
       }
   
-     
       validateForm();
     };
   
@@ -285,9 +388,9 @@ const Order = () => {
     const basePrice = 85; 
     const selectedToppingsPrice = orderData.toppings.length * toppingPrice;  
     const totalPrice = (basePrice + selectedToppingsPrice) * quantity; 
-  
+    
     return (
-      <>
+      <form onSubmit={handleSubmit}>
         <OrderDiv>
           <HeaderSection>
             <div className="header">Teknolojik Yemekler</div>
@@ -306,107 +409,110 @@ const Order = () => {
                 düzeltilmiş mayalı buğday bazlı hamurdan oluşan İtalyan kökenli lezzetli bir yemektir.<br /> Küçük bir pizzaya bazen pizzetta denir.
               </p>
             </div>
-  
-            <MiddleSection>
-              <div className="size-dough">
-                <SizeSection>
-                  <h3>Boyut Seç <span>*</span></h3>
-                  <div>
-                    <input type="radio" id="kucuk" name="size" value="Küçük"
-                      checked={orderData.size === "Küçük"}
-                      onChange={handleChange}
-                    />
-                    <label htmlFor="kucuk">Küçük</label>
-                  </div>
-                  <div>
-                    <input type="radio" id="orta" name="size" value="Orta"
-                      checked={orderData.size === "Orta"}
-                      onChange={handleChange}
-                    />
-                    <label htmlFor="orta">Orta</label>
-                  </div>
-                  <div>
-                    <input type="radio" id="buyuk" name="size" value="Büyük"
-                      checked={orderData.size === "Büyük"}
-                      onChange={handleChange}
-                    />
-                    <label htmlFor="buyuk">Büyük</label>
-                  </div>
-                  {error.size && <ErrorMessage>{error.size}</ErrorMessage>}
-                </SizeSection>
-  
-                <DoughSection>
-                  <h3>Hamur Seç <span>*</span></h3>
-                  <select name="crust" value={orderData.crust} onChange={handleChange}>
-                    <option value="">Hamur Seçin</option>
-                    <option value="ince">İnce</option>
-                    <option value="kalın">Kalın</option>
-                  </select>
-                  {error.crust && <ErrorMessage>{error.crust}</ErrorMessage>}
-                </DoughSection>
-              </div>
-  
-              <ToppingsSection>
-                <h3>Ek Malzemeler</h3>
-                {toppings.map((topping, index) => (
-                  <label key={index}>
-                    <input
-                      type="checkbox"
-                      name="toppings"
-                      value={topping}
-                      checked={orderData.toppings.includes(topping)}
-                      onChange={handleChange}
-                    />
-                    {topping}
-                  </label>
-                ))}
-                {error.toppings && <ErrorMessage>{error.toppings}</ErrorMessage>}
-              </ToppingsSection>
-  
-              <NoteSection>
-                <h3 className="name">İsim:</h3>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder='İsim Bilgisi Giriniz'
-                  value={orderData.name}
-                  onChange={handleChange}
-                />
-                {error.name && <ErrorMessage>{error.name}</ErrorMessage>}
-                <h3>Sipariş Notu</h3>
-                <textarea
-                  name="note"
-                  rows="4"
-                  placeholder="Siparişinize eklemek istediğiniz bir not var mı?"
-                  onChange={handleChange}
-                />
-              </NoteSection>
-  
-              <OrderSummary>
-                <h3>Sipariş Toplamı</h3>
-                <div className="secimler">
-                  <p>Seçimler: {selectedToppingsPrice.toFixed(2)}₺</p>
-                </div>
-                <div className="total">
-                  <p>Toplam </p>
-                  <p>{totalPrice.toFixed(2)}₺</p>
-                </div>
-              </OrderSummary>
-  
-              <ButtonGroupWrapper>
-                <button type="button" onClick={() => handleQuantityChange(-1)}>-</button>
-                <span>{quantity}</span>
-                <button type="button" onClick={() => handleQuantityChange(1)}>+</button>
-              </ButtonGroupWrapper>
-  
-              <SiparisVerButon disabled={!isValid} onClick={handleSubmit}>
-                Sipariş Ver
-              </SiparisVerButon>
-            </MiddleSection>
           </Content>
-        </OrderDiv>
-      </>
-    );
-  };
   
-  export default Order;
+          <MiddleSection>
+            <div className="size-dough">
+              <SizeSection>
+                <h3>Boyut Seç <span>*</span></h3>
+                <div>
+                  <input type="radio" id="kucuk" name="size" value="Küçük"
+                    checked={orderData.size === "Küçük"}
+                    onChange={handleChange}
+                    data-cy="size-kucuk"
+                  />
+                  <label htmlFor="kucuk">Küçük</label>
+                </div>
+                <div>
+                  <input type="radio" id="orta" name="size" value="Orta"
+                    checked={orderData.size === "Orta"}
+                    onChange={handleChange}
+                    data-cy="size-kucuk"
+                  />
+                  <label htmlFor="orta">Orta</label>
+                </div>
+                <div>
+                  <input type="radio" id="buyuk" name="size" value="Büyük"
+                    checked={orderData.size === "Büyük"}
+                    onChange={handleChange}
+                    data-cy="size-buyuk"
+                  />
+                  <label htmlFor="buyuk">Büyük</label>
+                </div>
+                {error.size && <ErrorMessage>{error.size}</ErrorMessage>}
+              </SizeSection>
+  
+              <DoughSection>
+                <h3>Hamur Seç <span>*</span></h3>
+                <select name="crust" value={orderData.crust} onChange={handleChange}>
+                  <option value="">Hamur Seçin</option>
+                  <option value="ince">İnce</option>
+                  <option value="kalın">Kalın</option>
+                </select>
+                {error.crust && <ErrorMessage>{error.crust}</ErrorMessage>}
+              </DoughSection>
+            </div>
+  
+            <ToppingsSection>
+              <h3>Ek Malzemeler</h3>
+              {toppings.map((topping, index) => (
+                <label key={index}>
+                  <input
+                    type="checkbox"
+                    name="toppings"
+                    value={topping}
+                    checked={orderData.toppings.includes(topping)}
+                    onChange={handleChange}
+                  />
+                  {topping}
+                </label>
+              ))}
+              {error.toppings && <ErrorMessage>{error.toppings}</ErrorMessage>}
+            </ToppingsSection>
+  
+            <NoteSection>
+              <h3 className="name">İsim:</h3>
+              <input
+                type="text"
+                name="name"
+                placeholder='İsim Bilgisi Giriniz'
+                value={orderData.name}
+                onChange={handleChange}
+              />
+              {error.name && <ErrorMessage>{error.name}</ErrorMessage>}
+              <h3>Sipariş Notu</h3>
+              <textarea
+                name="note"
+                rows="4"
+                placeholder="Siparişinize eklemek istediğiniz bir not var mı?"
+                onChange={handleChange}
+              />
+            </NoteSection>
+  
+            <OrderSummary>
+              <h3>Sipariş Toplamı</h3>
+              <div className="secimler">
+                <p>Seçimler: {selectedToppingsPrice.toFixed(2)}₺</p>
+              </div>
+              <div className="total">
+                <p>Toplam </p>
+                <p>{totalPrice.toFixed(2)}₺</p>
+              </div>
+            </OrderSummary>
+  
+            <ButtonGroupWrapper>
+              <button type="button" onClick={() => handleQuantityChange(-1)}>-</button>
+              <span>{quantity}</span>
+              <button type="button" onClick={() => handleQuantityChange(1)}>+</button>
+            </ButtonGroupWrapper>
+  
+            <SiparisVerButon type="submit" disabled={!isValid}>
+              Sipariş Ver
+            </SiparisVerButon>
+          </MiddleSection>
+        </OrderDiv>
+      </form>
+    );
+};
+
+export default Order;

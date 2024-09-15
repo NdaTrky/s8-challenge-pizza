@@ -14,8 +14,11 @@ const HeaderDiv = styled.div`
 
   display: flex;
   justify-content: center; 
-  align-items: center; 
-  
+  align-items: center;
+  text-align: center;
+  color: white; 
+ 
+
   img {
     position: absolute;
     top: 0;
@@ -23,13 +26,30 @@ const HeaderDiv = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover; 
+    z-index: -1; /* Görseli diğer içeriklerin arkasına yerleştirir */
+  }
+
+  .baslik{
+    position: relative;
+    bottom: 30vh;
+  }
+
+
+  h2 {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 86px;
+    font-weight: 300;
+    text-align: center;
+    color: white;
+    padding:30px;
+    margin: 40px;
   }
 
   .button-wrapper {
     position: absolute;
     display: flex;
     justify-content: center;
-    align-items: center;
+    width: 100%;
   }
 
   .button {
@@ -42,7 +62,7 @@ const HeaderDiv = styled.div`
     font-weight: 600;
     line-height: 56px;
     text-align: center;
-    cursor: pointer;
+   
 
     &:hover {
       background-color: #f0c400;
@@ -53,6 +73,10 @@ const HeaderDiv = styled.div`
 function Header() {
   return (
     <HeaderDiv>
+      <div className ="baslik">
+        <h1>Teknolojik Yemekler</h1>
+        <h2>KOD ACIKTIRIR PİZZA, DOYURUR.</h2>
+      </div>
       <img src="./Interfaces/Iteration-1/Home.png" alt="Home" />
       <div className="button-wrapper">
         <Link to="/Order">
